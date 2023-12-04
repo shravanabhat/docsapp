@@ -1,0 +1,21 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<h1>{{ title }}</h1>
+<h3>Address</h3>
+<p>{{ doc.address }}</p>
+<h3>Contact Info</h3>
+<p>{{ doc.contact_number }}</p>
+{% set doctor = frappe.get_doc("Doctor", doc.doctor) %}
+<p style="font-weight: bold;">{{ doctor.full_name }}, {{ doctor.specialty }}</p>
+<p><strong>Timings:</strong></p>
+{% set shifts = frappe.get_list("Shift", filters={"clinic": doc.name}, fields=["title"]) %}
+<ul>
+    {% for shift in shifts %}
+    <li>{{ shift.title }}</li>
+    {% endfor %}
+</ul>
+
+
+<button class="btn-primary-btn" style="background-color: aquamarine ;border: 2cap;border-radius: 0svi;"><a href="/book-appointment/new"> Book Appointment</a></button>
+{% endblock %}
